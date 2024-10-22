@@ -16,7 +16,7 @@ Suite Teardown      Close Browser
 *** Test Cases ***
 Test Case One
     Create Users
-    Verify Created Record
+    Verify Created Users
     Display Users
 
 Test Case Two
@@ -85,7 +85,7 @@ Input Date
     Click Element At Coordinates    ${locator}    0    0
     Press Keys    None    ${date}
 
-Verify Created Record
+Verify Created Users
     Go To Link    Customers
     Sleep    5s
     FOR    ${user}    IN    @{USERS}
@@ -108,7 +108,8 @@ Display Users
                 ...    ${table_data_locator}//img
 
                 IF    not ${data_has_image}
-                    ${table_data_value}    Evaluate    r"""${table_data_value}""".replace("\\n","")[1:]
+                    ${table_data_value}    Remove New Line    ${table_data_value}    ""
+                    ${table_data_value}    Evaluate    "${table_data_value}"[1:]
                 END
 
                 IF    "${table_data_value}" in "${new_users_list}"
@@ -123,7 +124,7 @@ Display Users
             END
 
             IF    ${j}==8
-                ${table_data_value}    Evaluate    r"""${table_data_value}""".replace("\\n",", ")
+                ${table_data_value}    Remove New Line    ${table_data_value}    ","
             END
             Log To Console    ${table_header_value} : ${table_data_value}
         END
@@ -135,6 +136,11 @@ Get Table Row Count
     ${row_count}    Get Length    ${web_elements}
     RETURN    ${row_count}
 
+Remove New Line
+    [Arguments]    ${value}    ${to_replace}
+    ${new_value}    Evaluate    r"""${value}""".replace("\\n",${to_replace})
+    RETURN    ${new_value}
+
 Get Users Order Count
     Go To Link    Customers
     ${row_count}    Get Table Row Count    ${table_body_row}
@@ -144,7 +150,8 @@ Get Users Order Count
         ${user_has_image}    Run Keyword And Return Status    Page Should Contain Element    ${name_locator}//img
 
         IF    not ${user_has_image}
-            ${name}    Evaluate    r"""${name}""".replace("\\n","")[1:]
+            ${name}    Remove New Line    ${name}    ""
+            ${name}    Evaluate    "${name}"[1:]
         END
         ${order_locator}    Set Variable    ((//tbody//tr)[${i}]//td)[4]
         ${order}    Get Text    ${order_locator}

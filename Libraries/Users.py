@@ -1,6 +1,5 @@
 import requests
 import random
-
 from datetime import datetime, timedelta
 import secrets
 
@@ -20,10 +19,64 @@ class Users:
         return users
 
     def get_random_word(self):
-        response = requests.get(
-            "https://random-word-api.herokuapp.com/word", verify=False
-        )
-        return response.json()[0].title()
+        # response = requests.get(
+        #     "https://random-word-api.herokuapp.com/word", verify=False
+        # )
+        # return response.json()[0].title()
+        # endpoint is down, so I used a static list of states
+        states = [
+            "Alabama",
+            "Alaska",
+            "Arizona",
+            "Arkansas",
+            "California",
+            "Colorado",
+            "Connecticut",
+            "Delaware",
+            "Florida",
+            "Georgia",
+            "Hawaii",
+            "Idaho",
+            "Illinois",
+            "Indiana",
+            "Iowa",
+            "Kansas",
+            "Kentucky",
+            "Louisiana",
+            "Maine",
+            "Maryland",
+            "Massachusetts",
+            "Michigan",
+            "Minnesota",
+            "Mississippi",
+            "Missouri",
+            "Montana",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Jersey",
+            "New Mexico",
+            "New York",
+            "North Carolina",
+            "North Dakota",
+            "Ohio",
+            "Oklahoma",
+            "Oregon",
+            "Pennsylvania",
+            "Rhode Island",
+            "South Carolina",
+            "South Dakota",
+            "Tennessee",
+            "Texas",
+            "Utah",
+            "Vermont",
+            "Virginia",
+            "Washington",
+            "West Virginia",
+            "Wisconsin",
+            "Wyoming",
+        ]
+        return random.choice(states)
 
     def generate_user_password(self):
         return secrets.token_urlsafe(32)
